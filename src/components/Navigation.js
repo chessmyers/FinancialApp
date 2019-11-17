@@ -27,7 +27,7 @@ class Navigation extends Component {
 
             <nav className="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar px-lg-5">
                 <div id="nav-name">
-                    <a className="navbar-brand" href="#"><strong>GreenGainz</strong></a>
+                    <a className="navbar-brand" href="#"><strong>FinAid</strong></a>
                 </div>
                 <button className="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -69,12 +69,12 @@ class Navigation extends Component {
                             </a>
                         </li>
                         <li id='icons' className="nav-item">
-                            <a href="https://github.com/TemelArda" className="nav-link" target="_blank">
+                            <a href="https://github.com/chessmyers/FinancialApp" className="nav-link" target="_blank">
                                 <i className="fab fa-github fa-lg"/>
                             </a>
                         </li>
                         <li id='icons' className="nav-item">
-                            <a href="https://www.linkedin.com/in/arda-temel-3ab708180/" className="nav-link"
+                            <a href="https://www.linkedin.com/company/capital-one/" className="nav-link"
                                target="_blank">
                                 <i className="fab fa-linkedin-in fa-lg"/>
                             </a>
