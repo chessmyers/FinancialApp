@@ -10,35 +10,60 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import * as ROUTES from './ROUTES';
 import ProfilePage from "./pages/ProfilePage";
+import LostPage from "./pages/LostPage";
 
 // The main starting point of the application, nothing should need to be changed here. Just sets up navigation
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            income: 0
+            income: 0,
+            name: "",
+            purchases: [],
+            username: '',
+            loggedIn: false,
         }
     }
 
-    updateIncome = (income) => {
+    updateInfo = (name, income) => {
         this.setState({
+            name,
             income
         })
     };
+
+    loginUser = (purchases, username) => {
+        console.log("WWWWWWWW");
+        this.setState({
+            purchases: purchases,
+            username,
+            loggedIn: true
+        })
+        console.log("uname: " + username)
+    }
 
 
     render() {
       return (
           <Router>
               <div>
-                  <Navigation/>
+                  <Navigation loggedIn={this.state.loggedIn}/>
                   <Switch>
-                      <Route exact path={ROUTES.LOGIN} component={LoginPage}/>
-                      <Route exact path={ROUTES.FINANCIAL} component={FinancialPage}/>
+                      <Route exact path={ROUTES.LOGIN} render={() => {
+                          return <LoginPage logUser={this.loginUser}  />
+                      }}/>
+                      <Route exact path={ROUTES.FINANCIAL} render={() => {
+                          return <FinancialPage purchases={this.state.purchases} income={this.state.income} username={this.state.username}/>
+                      }}/>
                       <Route exact path={ROUTES.MANAGE} component={ManagePage}/>
-                      <Route exact path={ROUTES.WISHLIST} component={WishListPage}/>
-                      <Route exact path={ROUTES.PROFILE} component={ProfilePage}/>
+                      <Route exact path={ROUTES.WISHLIST} render={() => {
+                          return <WishListPage userID={this.state.userID} income={this.state.income} username={this.state.username}/>
+                      }}/>
+                      <Route exact path={ROUTES.PROFILE} render={() => {
+                          return <ProfilePage updateInfo={this.updateInfo} income={this.state.income} name={this.state.name} />
+                      }}/>
                       <Route exact path={ROUTES.ABOUT} component={AboutPage}/>
+                      <Route component={LostPage} />
                   </Switch>
               </div>
           </Router>

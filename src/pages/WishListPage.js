@@ -2,37 +2,76 @@ import React, {Component} from 'react';
 import {MDBAnimation, MDBContainer, MDBMask, MDBRow, MDBView} from "mdbreact";
 
 class WishListPage extends Component {
+    static defaultProps = {
+        income: 0,
+        username: ''
+    }
     constructor(props) {
         super(props);
         this.state = {
-            balance: 1000,
             product: "",
             price: 0,
             message: "Please enter your desired item and its price",
+            totalSpending: 0
         }
     }
 
+
+
     updateMessage =() => {
+        console.log(this.state.totalSpending);
         const name = document.getElementById("prodName").value;
         const price = document.getElementById("prodPrice").value;
+        const moneyLeft = this.props.income - this.state.totalSpending;
         this.setState({
-            message: "This would cost " + (price / this.state.balance) * 100 + "% of your savings. " +
-                (this.state.balance > price ? "You can afford it." : "You need to make $" + (price -
-                    this.state.balance) + " to afford it."),
+            message: "Your total income is $" + this.props.income + " and you have spent $" + this.state.totalSpending +
+                " so you have $" + moneyLeft + " left. This would cost " + ((price / moneyLeft) * 100).toFixed(3) + "% of your remaining income. " +
+                (moneyLeft > price ? "You can afford it." : "You need to make $" + (price -
+                    moneyLeft) + " to afford it."),
             product: name,
             price: price,
         })
     };
 
     componentDidMount() {
-        fetch('http://localhost:5000/getSavings').then(out => {
+        fetch('http://api.reimaginebanking.com/accounts/' + this.props.username + '/purchases?key=08bd3c4c730de658bc7e03b180c35ba3').then(out => {
             out.json().then(out => {
                 console.log(out);
+                let totalSpend = 0;
+                for (let i = 0; i < out.length; i++) {
+                    totalSpend += out[i].amount;
+                }
+                // }
+                // let vals = this.fHistory(out);
+                // let total = 0;
+                // let newArr = vals[0]
+                // for (let i = 0; i < newArr.length; i++) {
+                //     total += newArr[i];
+                // }
+                this.setState({
+                    totalSpending: totalSpend
+                })
+            }).catch(err => {
+                console.log(err)
             })
-        }).catch(err => {
-            console.log(err)
         })
     }
+
+    // fHistory(out) {
+    //     let alltran=[];
+    //     let trans=[];
+    //     let trans_desc=[];
+    //     let c;
+    //     for (var i = 0; i < out.length; i++) {
+    //         alltran[i] = out[i];
+    //         trans[i] = alltran[i].amount;
+    //         trans_desc[i]=alltran[i].description;
+    //         c = [trans, trans_desc];
+    //     }
+    //     console.log(c);
+    //
+    //     return c;
+    // }
 
 
     render() {

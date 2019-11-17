@@ -1,5 +1,6 @@
 import React from "react";
 import {BrowserRouter as Router, Link} from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 import {
     MDBMask,
     MDBRow,
@@ -18,13 +19,21 @@ import "../index.css";
 import * as ROUTES from '../ROUTES';
 import request from 'request';
 
-var cors = require('cors');
-
 class LoginPage extends React.Component {
-    state = {
-        collapseID: "",
-        isLogin: false
+    static defaultProps = {
+        logUser() {}
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            collapseID: "",
+            isLogin: false,
+            error: null
+        }
+    }
+
+
 
     toggleCollapse = collapseID => () =>
         this.setState(prevState => ({
@@ -53,9 +62,6 @@ class LoginPage extends React.Component {
         // });
     }
 
-    processData(out) {
-
-    }
 
     // callBackend = async() => {
     //     const response = await fetch('http://api.reimaginebanking.com/customers?key=08bd3c4c730de658bc7e03b180c35ba3');
@@ -64,17 +70,39 @@ class LoginPage extends React.Component {
     //     return body;
     // }
 
+    getUserId = async () => {
+
+}
+
     doLogin = () => {
+
+
         const username = document.getElementById("usernameInput").value;
         const password = document.getElementById("passwordInput").value;
 
 
-        fetch('http://localhost:5000/getcustomer?name=' + username).then(out => {
+        fetch('http://api.reimaginebanking.com/accounts/' + username + '/purchases?key=08bd3c4c730de658bc7e03b180c35ba3').then(out => {
             out.json().then(out => {
+                if (!out.code && out.code != 404) {
+                    // user has been authenticated
+                    this.props.logUser(out, username);
+                    setTimeout( () => {
+                        this.props.history.push(ROUTES.FINANCIAL)
+                    }, 500)
+                } else {
+                    // invalid credentials
+                    this.setState({
+                        error: "Invalid credentials. Please try again"
+                    })
+                }
+
                 console.log(out);
             })
         }).catch(err => {
             console.log(err)
+            this.setState({
+                error: "Invalid credentials. Please try again"
+            })
         })
 
 
@@ -101,6 +129,8 @@ class LoginPage extends React.Component {
                 onClick={this.toggleCollapse("navbarCollapse")}
             />
         );
+
+        const error = this.state.error ? <h4 style={{color: 'red'}}>{this.state.error}</h4> : <span />;
         return (
             <div id="classicformpage">
                 <MDBView>
@@ -165,6 +195,7 @@ class LoginPage extends React.Component {
                                                     type="password"
                                                 />
                                                 <div className="text-center mt-4 black-text">
+                                                    {error}
                                                     {isLogin ? <div>
                                                         <MDBBtn rounded gradient="peach" onClick={this.doSignUp}>Sign Up</MDBBtn>
                                                         <hr/>
@@ -215,4 +246,4 @@ class LoginPage extends React.Component {
     }
 }
 
-export default LoginPage;
+export default withRouter(LoginPage);

@@ -39,15 +39,18 @@ class Navigation extends Component {
                         <li className="nav-item mx-3 px-lg-1">
                             <MDBNavLink to={ROUTES.LOGIN}>Login</MDBNavLink>
                         </li>
-                        <li className="nav-item mx-3 px-lg-1">
-                            <MDBNavLink to={ROUTES.FINANCIAL}>Financial History</MDBNavLink>
-                        </li>
-                        <li className="nav-item mx-3 px-lg-1">
-                            <MDBNavLink to={ROUTES.WISHLIST}>Goal</MDBNavLink>
-                        </li>
-                        <li className="nav-item mx-3 px-lg-1">
-                            <MDBNavLink to={ROUTES.PROFILE}>Profile</MDBNavLink>
-                        </li>
+
+                                <li className="nav-item mx-3 px-lg-1">
+                                    <MDBNavLink to={ROUTES.FINANCIAL}>Financial History</MDBNavLink>
+                                </li>
+                                <li className="nav-item mx-3 px-lg-1">
+                                    <MDBNavLink to={ROUTES.WISHLIST}>Goal</MDBNavLink>
+                                </li>
+                                <li className="nav-item mx-3 px-lg-1">
+                                    <MDBNavLink to={ROUTES.PROFILE}>Profile</MDBNavLink>
+                                </li>
+
+
                         <li className="nav-item mx-3 px-lg-1">
                             <MDBNavLink to={ROUTES.ABOUT}>About</MDBNavLink>
                         </li>
@@ -55,12 +58,12 @@ class Navigation extends Component {
 
                     <ul className="navbar-nav nav-flex-icons justify-content-center">
                         <li id='icons' className="nav-item">
-                            <a href="https://www.facebook.com/arda.temel.37" className="nav-link" target="_blank">
+                            <a href="https://www.facebook.com/capitalone/" className="nav-link" target="_blank">
                                 <i className="fab fa-facebook fa-lg"/>
                             </a>
                         </li>
                         <li id='icons' className="nav-item">
-                            <a href="https://www.instagram.com/temel.arda/?hl=en" className="nav-link"
+                            <a href="https://www.instagram.com/capitalone/?hl=en" className="nav-link"
                                target="_blank">
                                 <i className="fab fa-instagram fa-lg"/>
                             </a>
